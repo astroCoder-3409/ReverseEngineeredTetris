@@ -22,7 +22,8 @@ public class World {
                 worldMap[x][y] = new SquareSpace(x, y);
             }
         }
-        tetrominoList.add(new Tetromino(4,4,SquareColor.LIGHT_BLUE));
+        //tetrominoList.add(new Tetromino(4,4,SquareColor.PURPLE));
+        generateTetronimo(SquareColor.PURPLE);
     }
 
     public void moveTetronimoLeft() {
@@ -193,7 +194,7 @@ public class World {
         }
     }
     public void generateTetronimo(SquareColor color) {
-        tetrominoList.add(new Tetromino(0, 0, SquareColor.LIGHT_BLUE));
+        tetrominoList.add(new Tetromino(0, 0, color));
     }
 
     public void lockIn() {

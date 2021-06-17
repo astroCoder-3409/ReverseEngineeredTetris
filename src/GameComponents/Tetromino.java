@@ -242,6 +242,10 @@ public class Tetromino {
             case ORANGE:
                 break;
             case PURPLE:
+                squares.add(0, new Square(4, 1, color));
+                squares.add(0, new Square(3, 2, color));
+                squares.add(0, new Square(4, 2, color));
+                squares.add(0, new Square(5, 2, color));
                 break;
             case YELLOW:
                 break;
@@ -303,7 +307,8 @@ public class Tetromino {
                     squares.add(1, new Square(prevX, bottomEdge - 1, color));
                     squares.add(2, new Square(prevX - 1, bottomEdge - 1, color));
                     squares.add(3, new Square(prevX - 2,bottomEdge - 1, color));
-                }break;
+                }
+                break;
         }
     }
 
