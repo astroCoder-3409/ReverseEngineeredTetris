@@ -37,7 +37,7 @@ public class World {
             }
         }
 
-        tetrominoList = (LinkedList<Tetromino>) tetrominoList.clone();
+        tetrominoList = (LinkedList<Tetromino>) tempTetronimoList.clone();
         tempTetronimoList.clear();
 
 
@@ -61,7 +61,8 @@ public class World {
                 tetromino.moveRight();
             }
         }
-
+        tetrominoList = (LinkedList<Tetromino>) tempTetronimoList.clone();
+        tempTetronimoList.clear();
 /*
         for(Tetromino tetromino : tetrominoList) {
             if(tetromino.isFalling()) {
@@ -83,7 +84,8 @@ public class World {
                 tetromino.moveDown();
             }
         }
-
+        tetrominoList = (LinkedList<Tetromino>) tempTetronimoList.clone();
+        tempTetronimoList.clear();
 /*
         for(Tetromino tetromino : tetrominoList) {
             if(tetromino.isFalling()) {
@@ -103,7 +105,8 @@ public class World {
             Tetromino tetromino = iter.next();
             tetromino.moveDown();
         }
-
+        tetrominoList = (LinkedList<Tetromino>) tempTetronimoList.clone();
+        tempTetronimoList.clear();
 /*
         for(Tetromino tetromino : tetrominoList) {
             if(tetromino.isFalling()) {

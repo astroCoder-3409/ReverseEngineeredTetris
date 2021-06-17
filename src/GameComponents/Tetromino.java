@@ -183,6 +183,7 @@ public class Tetromino {
                     SquareSpace testSquareSpace = World.getInstance().getWorldMap()[square.getX()][square.getY() + 1];
                     if(testSquareSpace.getIsOccupied() && !isSquareSpaceOccupiedByTetronimo(testSquareSpace)) {
                         isMovePossible = false;
+                        System.out.println("SSS ismovepossible false");
                     }
                 }
             }
@@ -191,6 +192,7 @@ public class Tetromino {
                     SquareSpace testSquareSpace = World.getInstance().getWorldMap()[square.getX()][square.getY() - 1];
                     if(testSquareSpace.getIsOccupied() && !isSquareSpaceOccupiedByTetronimo(testSquareSpace)) {
                         isMovePossible = false;
+                        System.out.println("SSS ismovepossible false");
                     }
                 }
             }
@@ -199,6 +201,7 @@ public class Tetromino {
                     SquareSpace testSquareSpace = World.getInstance().getWorldMap()[square.getX() + 1][square.getY()];
                     if(testSquareSpace.getIsOccupied() && !isSquareSpaceOccupiedByTetronimo(testSquareSpace)) {
                         isMovePossible = false;
+                        System.out.println("SSS ismovepossible false");
                     }
                 }
             }
@@ -207,6 +210,7 @@ public class Tetromino {
                     SquareSpace testSquareSpace = World.getInstance().getWorldMap()[square.getX() - 1][square.getY() - 1];
                     if(testSquareSpace.getIsOccupied() && !isSquareSpaceOccupiedByTetronimo(testSquareSpace)) {
                         isMovePossible = false;
+                        System.out.println("SSS ismovepossible false");
                     }
                 }
             }
@@ -219,6 +223,7 @@ public class Tetromino {
             for(Square square : squares) {
                 square.setX(square.getX() + xInc);
                 square.setY(square.getY() + yInc);
+                System.out.println("SSS sucessful move");
             }
         }
         return isMovePossible;
@@ -232,6 +237,7 @@ public class Tetromino {
 
     //TODO finish Tetromino build()
     public void build(SquareColor color) {
+        rotation = 0; // Do not remove, this resets the rotation
         switch (this.color) {
             case DEFAULT:
                 break;
@@ -264,6 +270,28 @@ public class Tetromino {
     public void rotate() {
         rotation++;
         rotation = rotation % 4; //normalizes values to 0-3
+
+        boolean isRotationPossible = true;
+
+
+        int prevX = squares.get(0).getX();
+
+
+        int bottomEdge = 0;
+        int rightEdge = 0;
+        int leftEdge  = 9;
+        int prevY = squares.get(0).getY();
+        for(Square square : squares) {
+            if(square.getX() > rightEdge) {
+                rightEdge = square.getX();
+            }
+            if(square.getX() <  leftEdge) {
+                leftEdge  = square.getX();
+            }
+            if(square.getY() > bottomEdge) {
+                bottomEdge = square.getY();
+            }
+        }
         switch (color) {
             case DEFAULT:
                 break;
@@ -274,41 +302,37 @@ public class Tetromino {
             case ORANGE:
                 break;
             case PURPLE:
+
                 break;
             case YELLOW:
                 break;
             case DARK_BLUE:
                 break;
             case LIGHT_BLUE:
-                if(rotation == 1 || rotation == 3) {
-                    int rightEdge = 0;
-                    int prevY = squares.get(0).getY();
-                    for(Square square : squares) {
-                        if(square.getX() > rightEdge) {
-                            rightEdge = square.getX();
-                        }
-                    }
+                if(rotation == 1 || rotation == 3) { //horizontal to vertical
                     squares.clear();
-                    squares.add(0, new Square(rightEdge - 1,prevY + 1, color));
-                    squares.add(1, new Square(rightEdge - 1, prevY, color));
-                    squares.add(2, new Square(rightEdge - 1, prevY - 1, color));
-                    squares.add(3, new Square(rightEdge - 1,prevY - 2, color));
+                    squares.add(0, new Square(rightEdge - 1,bottomEdge + 1, color));
+                    squares.add(1, new Square(rightEdge - 1, bottomEdge, color));
+                    squares.add(2, new Square(rightEdge - 1, bottomEdge - 1, color));
+                    squares.add(3, new Square(rightEdge - 1,bottomEdge - 2, color));
                 }
-                if(rotation == 0 || rotation == 2) {
-                    int bottomEdge = 0;
-                    int prevX = squares.get(0).getX();
-                    for(Square square : squares) {
-                        if(square.getY() > bottomEdge) {
-                            bottomEdge = square.getY();
-                        }
+
+                if(rotation == 0 || rotation == 2) { //vertical to horizontal
+                    if(leftEdge > 1 && rightEdge < 9) {
+                        squares.clear();
+                        squares.add(0, new Square(rightEdge + 1, bottomEdge - 1, color));
+                        squares.add(1, new Square(rightEdge + 0, bottomEdge - 1, color));
+                        squares.add(2, new Square(rightEdge - 1, bottomEdge - 1, color));
+                        squares.add(3, new Square(rightEdge - 2, bottomEdge - 1, color));
+                    } else {
+                        isRotationPossible = false;
                     }
-                    squares.clear();
-                    squares.add(0, new Square(prevX + 1,bottomEdge - 1, color));
-                    squares.add(1, new Square(prevX, bottomEdge - 1, color));
-                    squares.add(2, new Square(prevX - 1, bottomEdge - 1, color));
-                    squares.add(3, new Square(prevX - 2,bottomEdge - 1, color));
                 }
                 break;
+        }
+        if(!isRotationPossible) {
+            rotation--; //this resets rotations counter
+            System.out.println("Attempted tetronimo rotation out of bounds  :/");
         }
     }
 
