@@ -73,14 +73,6 @@ public class World {
                 tetromino.moveDown();
             }
         }
-/*
-        for(Tetromino tetromino : tetrominoList) {
-            if(tetromino.isFalling()) {
-                tetromino.moveDown();
-            }
-        }
-
- */
     }
 
     public void moveAllTetronimosDown() {
