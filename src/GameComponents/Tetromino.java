@@ -267,6 +267,36 @@ public class Tetromino {
             case ORANGE:
                 break;
             case PURPLE:
+                if(rotation == 1) {
+                    squares.clear();
+                    squares.add(0, new Square(rightEdge - 1, bottomEdge - 1, SquareColor.PURPLE));
+                    squares.add(0, new Square(rightEdge - 1, bottomEdge - 0, SquareColor.PURPLE));
+                    squares.add(0, new Square(rightEdge - 1, bottomEdge + 1, SquareColor.PURPLE));
+                    squares.add(0, new Square(rightEdge - 0, bottomEdge - 0, SquareColor.PURPLE));
+                }
+                else if(rotation == 2) {
+                    squares.clear();
+                    squares.add(0, new Square(rightEdge - 1, bottomEdge - 1, SquareColor.PURPLE));
+                    squares.add(0, new Square(rightEdge - 0, bottomEdge - 1, SquareColor.PURPLE));
+                    squares.add(0, new Square(rightEdge - 2, bottomEdge - 1, SquareColor.PURPLE));
+                    squares.add(0, new Square(rightEdge - 1, bottomEdge - 0, SquareColor.PURPLE));
+                }
+                else if(rotation == 3) {
+                    squares.clear();
+                    squares.add(0, new Square(rightEdge - 1, bottomEdge - 1, SquareColor.PURPLE));
+                    squares.add(0, new Square(rightEdge - 1, bottomEdge - 2, SquareColor.PURPLE));
+                    squares.add(0, new Square(rightEdge - 1, bottomEdge - 0, SquareColor.PURPLE));
+                    squares.add(0, new Square(rightEdge - 2, bottomEdge - 1, SquareColor.PURPLE));
+                }
+                else {
+                    squares.clear();
+                    squares.add(0, new Square(rightEdge - 0, bottomEdge - 1, SquareColor.PURPLE));
+                    squares.add(0, new Square(rightEdge + 1, bottomEdge - 1, SquareColor.PURPLE));
+                    squares.add(0, new Square(rightEdge - 1, bottomEdge - 1, SquareColor.PURPLE));
+                    squares.add(0, new Square(rightEdge - 0, bottomEdge - 2, SquareColor.PURPLE));
+
+
+                }
 
                 break;
             case YELLOW:
@@ -282,7 +312,7 @@ public class Tetromino {
                     squares.add(3, new Square(rightEdge - 1,bottomEdge - 2, color));
                 }
 
-                if(rotation == 0 || rotation == 2) { //vertical to horizontal
+                else if(rotation == 0 || rotation == 2) { //vertical to horizontal
                     if(leftEdge > 1 && rightEdge < 9) {
                         squares.clear();
                         squares.add(0, new Square(rightEdge + 1, bottomEdge - 1, color));

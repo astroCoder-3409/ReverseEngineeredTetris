@@ -2,6 +2,7 @@ package GameComponents;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class World {
     private SquareSpace[][] worldMap;
@@ -22,8 +23,9 @@ public class World {
                 worldMap[x][y] = new SquareSpace(x, y);
             }
         }
-        //tetrominoList.add(new Tetromino(4,4,SquareColor.PURPLE));
-        generateTetronimo(SquareColor.PURPLE);
+        //generateTetronimo(SquareColor.PURPLE);
+        //generateTetronimo(SquareColor.LIGHT_BLUE);
+        generateRandomTetronimo();
     }
 
     public void moveTetronimoLeft() {
@@ -64,9 +66,7 @@ public class World {
 
     }
     public void moveTetronimoDown() {
-        LinkedList<Tetromino> tempTetronimoList = (LinkedList<Tetromino>) tetrominoList.clone();
-
-        Iterator<Tetromino> iter = tempTetronimoList.iterator();
+        Iterator<Tetromino> iter = tetrominoList.iterator();
         while (iter.hasNext()) {
             Tetromino tetromino = iter.next();
             if(tetromino.isFalling()) {
@@ -118,6 +118,19 @@ public class World {
         }
 
          */
+    }
+
+    private void generateRandomTetronimo() {
+        Random rand = new Random();
+        int num = rand.nextInt(2);
+        switch (num) {
+            case 0:
+                generateTetronimo(SquareColor.LIGHT_BLUE);
+                break;
+            case 1:
+                generateTetronimo(SquareColor.PURPLE);
+                break;
+        }
     }
 
     private boolean isLockInReq = false;
@@ -187,7 +200,9 @@ public class World {
     }
 
     private void lockIn() {
-        generateTetronimo(SquareColor.LIGHT_BLUE);
+        //generateTetronimo(SquareColor.LIGHT_BLUE);
+        //generateTetronimo(SquareColor.PURPLE);
+        generateRandomTetronimo();
         for (int y = 0; y < 20; y++) {
             boolean isLineClearable = true;
             for(int x = 0; x < 10; x++) {
