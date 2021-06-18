@@ -24,52 +24,13 @@ public class Tetromino {
     }
 
     public void update() {
-        int bottomEdge = 0;
-
-        LinkedList<Square> tempSquares = (LinkedList<Square>) squares.clone();
-
-        Iterator<Square> iter = tempSquares.iterator();
-
-        while(iter.hasNext()){
-
-            Square square = iter.next();
-
-            if(square.getY() > bottomEdge) {
-                bottomEdge = square.getY();
-            }
-        }
-        /*
-        for(Square square : squares) {
-            if(square.getY() > bottomEdge) {
-                bottomEdge = square.getY();
-            }
-        }
-
-         */
-
-        /*if(bottomEdge >= 19) {
-            isFalling = false;
-        }*/
-
-        for(Square square : squares) {//TODO fix this for block
-            square.setX(square.getX());
-            square.setY(square.getY());
-        }
         if(System.currentTimeMillis() - fallingTimer > World.getInstance().getFallTime()) {
             fallingTimer = System.currentTimeMillis();
-            for(Square square : squares) {
-                if(square.getY() > bottomEdge) {
-                    bottomEdge = square.getY();
-                }
-            }
             if(!moveDown()) {
-                if(isFalling) World.getInstance().lockIn();
+                if(isFalling) World.getInstance().requestLockIn();
                 isFalling = false;
             }
 
-            /*for(Square square : squares) {
-                square.setY(square.getY() - 1);
-            }*/
         }
     }
 
@@ -83,6 +44,8 @@ public class Tetromino {
         }
         return isOccupied;
     }
+
+
     boolean isSquareSpaceOccupiedByTetronimo(SquareSpace testSquare) {
         boolean isOccupied = false;
         for (Square square : squares){
@@ -93,6 +56,8 @@ public class Tetromino {
         }
         return isOccupied;
     }
+
+    public boolean getIsFalling() {return isFalling;}
 
     public boolean moveLeft() {
         /*boolean isMovePossible = true;
@@ -176,6 +141,7 @@ public class Tetromino {
     }
     private boolean transformTetronimo(int xInc, int yInc) {
         boolean isMovePossible = true;
+        System.out.println("transform tetronimo called");
 
         try {
             if(yInc > 0) {
@@ -183,7 +149,6 @@ public class Tetromino {
                     SquareSpace testSquareSpace = World.getInstance().getWorldMap()[square.getX()][square.getY() + 1];
                     if(testSquareSpace.getIsOccupied() && !isSquareSpaceOccupiedByTetronimo(testSquareSpace)) {
                         isMovePossible = false;
-                        System.out.println("SSS ismovepossible false");
                     }
                 }
             }
@@ -192,7 +157,6 @@ public class Tetromino {
                     SquareSpace testSquareSpace = World.getInstance().getWorldMap()[square.getX()][square.getY() - 1];
                     if(testSquareSpace.getIsOccupied() && !isSquareSpaceOccupiedByTetronimo(testSquareSpace)) {
                         isMovePossible = false;
-                        System.out.println("SSS ismovepossible false");
                     }
                 }
             }
@@ -201,7 +165,6 @@ public class Tetromino {
                     SquareSpace testSquareSpace = World.getInstance().getWorldMap()[square.getX() + 1][square.getY()];
                     if(testSquareSpace.getIsOccupied() && !isSquareSpaceOccupiedByTetronimo(testSquareSpace)) {
                         isMovePossible = false;
-                        System.out.println("SSS ismovepossible false");
                     }
                 }
             }
@@ -210,7 +173,6 @@ public class Tetromino {
                     SquareSpace testSquareSpace = World.getInstance().getWorldMap()[square.getX() - 1][square.getY() - 1];
                     if(testSquareSpace.getIsOccupied() && !isSquareSpaceOccupiedByTetronimo(testSquareSpace)) {
                         isMovePossible = false;
-                        System.out.println("SSS ismovepossible false");
                     }
                 }
             }
@@ -220,11 +182,14 @@ public class Tetromino {
         }
 
         if(isMovePossible) {
+            System.out.println("SSS sucessful move");
             for(Square square : squares) {
                 square.setX(square.getX() + xInc);
                 square.setY(square.getY() + yInc);
-                System.out.println("SSS sucessful move");
             }
+        }
+        else {
+            System.out.println("UUU unsucessful");
         }
         return isMovePossible;
     }

@@ -7,10 +7,13 @@ import java.awt.event.KeyEvent;
 
 
 public class KeyHandler extends KeyAdapter{
+
     public KeyHandler(){
 
     }
     public void keyPressed(KeyEvent e) {
+
+
         Integer key = e.getKeyCode();
         System.out.println("DBG  key code pressed: " + key);
         if (key.equals(37)) {

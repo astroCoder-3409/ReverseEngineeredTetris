@@ -27,18 +27,13 @@ public class World {
     }
 
     public void moveTetronimoLeft() {
-        LinkedList<Tetromino> tempTetronimoList = (LinkedList<Tetromino>) tetrominoList.clone();
-
-        Iterator<Tetromino> iter = tempTetronimoList.iterator();
+        Iterator<Tetromino> iter = tetrominoList.iterator();
         while (iter.hasNext()) {
             Tetromino tetromino = iter.next();
             if(tetromino.isFalling()) {
                 tetromino.moveLeft();
             }
         }
-
-        tetrominoList = (LinkedList<Tetromino>) tempTetronimoList.clone();
-        tempTetronimoList.clear();
 
 
         /*
@@ -51,20 +46,15 @@ public class World {
     }
 
     public void moveTetronimoRight() {
-
-        LinkedList<Tetromino> tempTetronimoList = (LinkedList<Tetromino>) tetrominoList.clone();
-
-        Iterator<Tetromino> iter = tempTetronimoList.iterator();
+        Iterator<Tetromino> iter = tetrominoList.iterator();
         while (iter.hasNext()) {
             Tetromino tetromino = iter.next();
             if(tetromino.isFalling()) {
                 tetromino.moveRight();
             }
         }
-        tetrominoList = (LinkedList<Tetromino>) tempTetronimoList.clone();
-        tempTetronimoList.clear();
 /*
-        for(Tetromino tetromino : tetrominoList) {
+        for(Tetrominoz tetromino : tetrominoList) {
             if(tetromino.isFalling()) {
                 tetromino.moveRight();
             }
@@ -74,7 +64,6 @@ public class World {
 
     }
     public void moveTetronimoDown() {
-
         LinkedList<Tetromino> tempTetronimoList = (LinkedList<Tetromino>) tetrominoList.clone();
 
         Iterator<Tetromino> iter = tempTetronimoList.iterator();
@@ -84,8 +73,6 @@ public class World {
                 tetromino.moveDown();
             }
         }
-        tetrominoList = (LinkedList<Tetromino>) tempTetronimoList.clone();
-        tempTetronimoList.clear();
 /*
         for(Tetromino tetromino : tetrominoList) {
             if(tetromino.isFalling()) {
@@ -97,16 +84,11 @@ public class World {
     }
 
     public void moveAllTetronimosDown() {
-
-        LinkedList<Tetromino> tempTetronimoList = (LinkedList<Tetromino>) tetrominoList.clone();
-
-        Iterator<Tetromino> iter = tempTetronimoList.iterator();
+        Iterator<Tetromino> iter = tetrominoList.iterator();
         while (iter.hasNext()) {
             Tetromino tetromino = iter.next();
             tetromino.moveDown();
         }
-        tetrominoList = (LinkedList<Tetromino>) tempTetronimoList.clone();
-        tempTetronimoList.clear();
 /*
         for(Tetromino tetromino : tetrominoList) {
             if(tetromino.isFalling()) {
@@ -120,10 +102,7 @@ public class World {
 
     }
     public void rotateTetronimo() {
-
-        LinkedList<Tetromino> tempTetronimoList = (LinkedList<Tetromino>) tetrominoList.clone();
-
-        Iterator<Tetromino> iter = tempTetronimoList.iterator();
+        Iterator<Tetromino> iter = tetrominoList.iterator();
         while (iter.hasNext()) {
             Tetromino tetromino = iter.next();
             if(tetromino.isFalling()) {
@@ -139,6 +118,12 @@ public class World {
         }
 
          */
+    }
+
+    private boolean isLockInReq = false;
+
+    public void requestLockIn() {
+        isLockInReq = true;
     }
 
     public static World getInstance() {
@@ -167,14 +152,16 @@ public class World {
     }
 
     public void update() {
-        LinkedList<Tetromino> tempTetronimoList = (LinkedList<Tetromino>) tetrominoList.clone();
+        if(isLockInReq) {
+            lockIn();
+            isLockInReq = false;
+        }
         //iterates through each column on x axis
         for(int x = 0; x < 10; x++) {
             //iterates through each square space
             for(int y = 0; y < 20; y++) {
                 //for(Tetromino tetromino : tetrominoList) {
-
-                Iterator<Tetromino> iter = tempTetronimoList.iterator();
+                Iterator<Tetromino> iter = tetrominoList.iterator();
                 while (iter.hasNext()) {
                     Tetromino tetromino = iter.next();
                     tetromino.update();
@@ -187,7 +174,6 @@ public class World {
                         }
                     }
                 }
-                //}
                 if(!worldMap[x][y].beenModified && worldMap[x][y].getIsOccupied()) {
                     worldMap[x][y].setIsOccupied(false);
                     worldMap[x][y].setColor(SquareColor.DEFAULT);
@@ -200,7 +186,7 @@ public class World {
         tetrominoList.add(new Tetromino(0, 0, color));
     }
 
-    public void lockIn() {
+    private void lockIn() {
         generateTetronimo(SquareColor.LIGHT_BLUE);
         for (int y = 0; y < 20; y++) {
             boolean isLineClearable = true;

@@ -17,6 +17,7 @@ public class Game extends Canvas implements Runnable {
     public static final int SQUARE_WIDTH = (int) (12 * SCALE);
     public static final String NAME = "Tetris shit";
     private static final long serialVersionUID = 1L;
+    private static final boolean gameDBG = false;
 
     private JFrame frame;
     public boolean running = false;
@@ -99,7 +100,7 @@ public class Game extends Canvas implements Runnable {
 
             if (System.currentTimeMillis() - lastTimer >= 1000) {
                 lastTimer += 1000;
-                System.out.println(ticks + " ticks, " + frames + " frames");
+                if (gameDBG) System.out.println(ticks + " ticks, " + frames + " frames");
                 frames = 0;
                 ticks = 0;
             }
