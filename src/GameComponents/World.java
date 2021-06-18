@@ -25,6 +25,8 @@ public class World {
         }
         //generateTetronimo(SquareColor.PURPLE);
         //generateTetronimo(SquareColor.LIGHT_BLUE);
+        //generateTetronimo(SquareColor.YELLOW);
+        //generateTetronimo(SquareColor.DARK_BLUE);
         generateRandomTetronimo();
     }
 
@@ -74,12 +76,19 @@ public class World {
             }
         }
     }
+    public void moveSquaresAbove(int level) {
+        Iterator<Tetromino> iter = tetrominoList.iterator();
+        while (iter.hasNext()) {
+            Tetromino tetromino = iter.next();
+            tetromino.dropSquaresAboveLevel(level);
+        }
+    }
 
     public void moveAllTetronimosDown() {
         Iterator<Tetromino> iter = tetrominoList.iterator();
         while (iter.hasNext()) {
             Tetromino tetromino = iter.next();
-            tetromino.moveDown();
+            tetromino.forceDown();
         }
 /*
         for(Tetromino tetromino : tetrominoList) {
@@ -114,13 +123,19 @@ public class World {
 
     private void generateRandomTetronimo() {
         Random rand = new Random();
-        int num = rand.nextInt(2);
+        int num = rand.nextInt(4);
         switch (num) {
             case 0:
                 generateTetronimo(SquareColor.LIGHT_BLUE);
                 break;
             case 1:
                 generateTetronimo(SquareColor.PURPLE);
+                break;
+            case 2:
+                generateTetronimo(SquareColor.YELLOW);
+                break;
+            case 3:
+                generateTetronimo(SquareColor.DARK_BLUE);
                 break;
         }
     }
@@ -153,7 +168,7 @@ public class World {
     }
 
     public long getFallTime() {
-        return 900;
+        return 1000;
     }
 
     public void update() {
@@ -216,7 +231,7 @@ public class World {
                         }
                     }
                 }
-                moveAllTetronimosDown();
+                moveSquaresAbove(y);
             }
         }
     }

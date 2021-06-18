@@ -26,10 +26,14 @@ public class Tetromino {
     public void update() {
         if(System.currentTimeMillis() - fallingTimer > World.getInstance().getFallTime()) {
             fallingTimer = System.currentTimeMillis();
-            if(!moveDown()) {
-                if(isFalling) World.getInstance().requestLockIn();
-                isFalling = false;
+
+            if(isFalling) {
+                if(!moveDown()) {
+                    World.getInstance().requestLockIn();
+                    isFalling = false;
+                }
             }
+
 
         }
     }
@@ -136,8 +140,10 @@ public class Tetromino {
 
          */
     }
-    public void moveFloor() {
-
+    public void forceDown() {
+        for(Square square : squares) {
+            square.setY(square.getY() + 1);
+        }
     }
     private boolean transformTetronimo(int xInc, int yInc) {
         boolean isMovePossible = true;
@@ -213,21 +219,40 @@ public class Tetromino {
             case ORANGE:
                 break;
             case PURPLE:
-                squares.add(0, new Square(4, 1, color));
-                squares.add(0, new Square(3, 2, color));
-                squares.add(0, new Square(4, 2, color));
-                squares.add(0, new Square(5, 2, color));
+                squares.add(new Square(4, 1, color));
+                squares.add(new Square(3, 2, color));
+                squares.add(new Square(4, 2, color));
+                squares.add(new Square(5, 2, color));
                 break;
             case YELLOW:
+                squares.add(new Square(4, 1, color));
+                squares.add(new Square(5, 1, color));
+                squares.add(new Square(4, 0, color));
+                squares.add(new Square(5, 0, color));
                 break;
             case DARK_BLUE:
+                squares.add(new Square(3, 0, color));
+                squares.add(new Square(3, 1, color));
+                squares.add(new Square(4, 1, color));
+                squares.add(new Square(5, 1, color));
+
+                forceDown();
+                forceDown(); //TODO remove
                 break;
             case LIGHT_BLUE:
-                squares.add(0, new Square(3,1,color));
-                squares.add(1, new Square(4,1,color));
-                squares.add(2, new Square(5,1,color));
-                squares.add(3, new Square(6,1,color));
+                squares.add(new Square(3,1, color));
+                squares.add(new Square(4,1, color));
+                squares.add(new Square(5,1, color));
+                squares.add(new Square(6,1, color));
                 break;
+        }
+    }
+
+    public void dropSquaresAboveLevel(int level) {
+        if (!isFalling) {
+            for (Square square: squares) {
+                if (square.getY() < level) square.setY(square.getY() + 1);
+            }
         }
     }
 
@@ -237,10 +262,6 @@ public class Tetromino {
         rotation = rotation % 4; //normalizes values to 0-3
 
         boolean isRotationPossible = true;
-
-
-        int prevX = squares.get(0).getX();
-
 
         int bottomEdge = 0;
         int rightEdge = 0;
@@ -269,56 +290,96 @@ public class Tetromino {
             case PURPLE:
                 if(rotation == 1) {
                     squares.clear();
-                    squares.add(0, new Square(rightEdge - 1, bottomEdge - 1, SquareColor.PURPLE));
-                    squares.add(0, new Square(rightEdge - 1, bottomEdge - 0, SquareColor.PURPLE));
-                    squares.add(0, new Square(rightEdge - 1, bottomEdge + 1, SquareColor.PURPLE));
-                    squares.add(0, new Square(rightEdge - 0, bottomEdge - 0, SquareColor.PURPLE));
+                    squares.add(new Square(rightEdge - 1, bottomEdge - 1, SquareColor.PURPLE));
+                    squares.add(new Square(rightEdge - 1, bottomEdge - 0, SquareColor.PURPLE));
+                    squares.add(new Square(rightEdge - 1, bottomEdge + 1, SquareColor.PURPLE));
+                    squares.add(new Square(rightEdge - 0, bottomEdge - 0, SquareColor.PURPLE));
                 }
                 else if(rotation == 2) {
-                    squares.clear();
-                    squares.add(0, new Square(rightEdge - 1, bottomEdge - 1, SquareColor.PURPLE));
-                    squares.add(0, new Square(rightEdge - 0, bottomEdge - 1, SquareColor.PURPLE));
-                    squares.add(0, new Square(rightEdge - 2, bottomEdge - 1, SquareColor.PURPLE));
-                    squares.add(0, new Square(rightEdge - 1, bottomEdge - 0, SquareColor.PURPLE));
+                    if(leftEdge > 1) {
+                        squares.clear();
+                        squares.add(new Square(rightEdge - 1, bottomEdge - 1, SquareColor.PURPLE));
+                        squares.add(new Square(rightEdge - 0, bottomEdge - 1, SquareColor.PURPLE));
+                        squares.add(new Square(rightEdge - 2, bottomEdge - 1, SquareColor.PURPLE));
+                        squares.add(new Square(rightEdge - 1, bottomEdge - 0, SquareColor.PURPLE));
+                    }
+                    else {
+                        isRotationPossible = false;
+                    }
                 }
                 else if(rotation == 3) {
                     squares.clear();
-                    squares.add(0, new Square(rightEdge - 1, bottomEdge - 1, SquareColor.PURPLE));
-                    squares.add(0, new Square(rightEdge - 1, bottomEdge - 2, SquareColor.PURPLE));
-                    squares.add(0, new Square(rightEdge - 1, bottomEdge - 0, SquareColor.PURPLE));
-                    squares.add(0, new Square(rightEdge - 2, bottomEdge - 1, SquareColor.PURPLE));
+                    squares.add(new Square(rightEdge - 1, bottomEdge - 1, SquareColor.PURPLE));
+                    squares.add(new Square(rightEdge - 1, bottomEdge - 2, SquareColor.PURPLE));
+                    squares.add(new Square(rightEdge - 1, bottomEdge - 0, SquareColor.PURPLE));
+                    squares.add(new Square(rightEdge - 2, bottomEdge - 1, SquareColor.PURPLE));
                 }
                 else {
-                    squares.clear();
-                    squares.add(0, new Square(rightEdge - 0, bottomEdge - 1, SquareColor.PURPLE));
-                    squares.add(0, new Square(rightEdge + 1, bottomEdge - 1, SquareColor.PURPLE));
-                    squares.add(0, new Square(rightEdge - 1, bottomEdge - 1, SquareColor.PURPLE));
-                    squares.add(0, new Square(rightEdge - 0, bottomEdge - 2, SquareColor.PURPLE));
-
-
+                    if(rightEdge < 9) {
+                        squares.clear();
+                        squares.add(new Square(rightEdge - 0, bottomEdge - 1, SquareColor.PURPLE));
+                        squares.add(new Square(rightEdge + 1, bottomEdge - 1, SquareColor.PURPLE));
+                        squares.add(new Square(rightEdge - 1, bottomEdge - 1, SquareColor.PURPLE));
+                        squares.add(new Square(rightEdge - 0, bottomEdge - 2, SquareColor.PURPLE));
+                    } else {
+                        isRotationPossible = false;
+                    }
                 }
-
                 break;
             case YELLOW:
                 break;
             case DARK_BLUE:
+                if (rotation == 1) {
+                    squares.clear();
+                    squares.add(new Square(rightEdge - 1, bottomEdge - 0, color));
+                    squares.add(new Square(rightEdge - 1, bottomEdge + 1, color));
+                    squares.add(new Square(rightEdge - 1, bottomEdge - 1, color));
+                    squares.add(new Square(rightEdge - 0, bottomEdge - 1, color));
+                } else if (rotation == 2) {
+                   if (leftEdge > 0) {
+                       squares.clear();
+                       squares.add(new Square(rightEdge - 1, bottomEdge - 1, color));
+                       squares.add(new Square(rightEdge - 2, bottomEdge - 1, color));
+                       squares.add(new Square(rightEdge - 0, bottomEdge - 1, color));
+                       squares.add(new Square(rightEdge - 0, bottomEdge - 0, color));
+                   } else {
+                       isRotationPossible = false;
+                   }
+                } else if (rotation == 3) {
+                    squares.clear();
+                    squares.add(new Square(rightEdge - 1, bottomEdge - 1, color));
+                    squares.add(new Square(rightEdge - 1, bottomEdge - 2, color));
+                    squares.add(new Square(rightEdge - 1, bottomEdge - 0, color));
+                    squares.add(new Square(rightEdge - 2, bottomEdge - 0, color));
+                } else {
+                    if (rightEdge < 9) {
+                        squares.clear();
+                        squares.add(new Square(rightEdge - 0, bottomEdge - 1, color));
+                        squares.add(new Square(rightEdge + 1, bottomEdge - 1, color));
+                        squares.add(new Square(rightEdge - 1, bottomEdge - 1, color));
+                        squares.add(new Square(rightEdge - 1, bottomEdge - 2, color));
+                    } else {
+                        isRotationPossible = false;
+                    }
+
+                }
                 break;
             case LIGHT_BLUE:
                 if(rotation == 1 || rotation == 3) { //horizontal to vertical
                     squares.clear();
-                    squares.add(0, new Square(rightEdge - 1,bottomEdge + 1, color));
-                    squares.add(1, new Square(rightEdge - 1, bottomEdge, color));
-                    squares.add(2, new Square(rightEdge - 1, bottomEdge - 1, color));
-                    squares.add(3, new Square(rightEdge - 1,bottomEdge - 2, color));
+                    squares.add(new Square(rightEdge - 1,bottomEdge + 1, color));
+                    squares.add(new Square(rightEdge - 1, bottomEdge, color));
+                    squares.add(new Square(rightEdge - 1, bottomEdge - 1, color));
+                    squares.add(new Square(rightEdge - 1,bottomEdge - 2, color));
                 }
 
                 else if(rotation == 0 || rotation == 2) { //vertical to horizontal
                     if(leftEdge > 1 && rightEdge < 9) {
                         squares.clear();
-                        squares.add(0, new Square(rightEdge + 1, bottomEdge - 1, color));
-                        squares.add(1, new Square(rightEdge + 0, bottomEdge - 1, color));
-                        squares.add(2, new Square(rightEdge - 1, bottomEdge - 1, color));
-                        squares.add(3, new Square(rightEdge - 2, bottomEdge - 1, color));
+                        squares.add(new Square(rightEdge + 1, bottomEdge - 1, color));
+                        squares.add(new Square(rightEdge + 0, bottomEdge - 1, color));
+                        squares.add(new Square(rightEdge - 1, bottomEdge - 1, color));
+                        squares.add(new Square(rightEdge - 2, bottomEdge - 1, color));
                     } else {
                         isRotationPossible = false;
                     }
