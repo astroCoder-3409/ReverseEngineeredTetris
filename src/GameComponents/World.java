@@ -23,10 +23,7 @@ public class World {
                 worldMap[x][y] = new SquareSpace(x, y);
             }
         }
-        //generateTetronimo(SquareColor.PURPLE);
-        //generateTetronimo(SquareColor.LIGHT_BLUE);
-        //generateTetronimo(SquareColor.YELLOW);
-        //generateTetronimo(SquareColor.DARK_BLUE);
+        //generateTetronimo(SquareColor.ORANGE);
         generateRandomTetronimo();
     }
 
@@ -123,7 +120,7 @@ public class World {
 
     private void generateRandomTetronimo() {
         Random rand = new Random();
-        int num = rand.nextInt(4);
+        int num = rand.nextInt(6);
         switch (num) {
             case 0:
                 generateTetronimo(SquareColor.LIGHT_BLUE);
@@ -136,6 +133,12 @@ public class World {
                 break;
             case 3:
                 generateTetronimo(SquareColor.DARK_BLUE);
+                break;
+            case 4:
+                generateTetronimo(SquareColor.RED);
+                break;
+            case 5:
+                generateTetronimo(SquareColor.ORANGE);
                 break;
         }
     }
@@ -168,7 +171,7 @@ public class World {
     }
 
     public long getFallTime() {
-        return 1000;
+        return 600;
     }
 
     public void update() {

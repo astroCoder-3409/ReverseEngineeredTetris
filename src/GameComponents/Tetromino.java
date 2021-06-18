@@ -215,8 +215,22 @@ public class Tetromino {
             case GREEN:
                 break;
             case RED:
+                squares.add(new Square(4, 1, color));
+                squares.add(new Square(5, 1, color));
+                squares.add(new Square(4, 0, color));
+                squares.add(new Square(3, 0, color));
                 break;
             case ORANGE:
+                squares.add(new Square(5, 0, color));
+                squares.add(new Square(3, 1, color));
+                squares.add(new Square(4, 1, color));
+                squares.add(new Square(5, 1, color));
+                break;
+            case DARK_BLUE:
+                squares.add(new Square(3, 0, color));
+                squares.add(new Square(3, 1, color));
+                squares.add(new Square(4, 1, color));
+                squares.add(new Square(5, 1, color));
                 break;
             case PURPLE:
                 squares.add(new Square(4, 1, color));
@@ -229,15 +243,6 @@ public class Tetromino {
                 squares.add(new Square(5, 1, color));
                 squares.add(new Square(4, 0, color));
                 squares.add(new Square(5, 0, color));
-                break;
-            case DARK_BLUE:
-                squares.add(new Square(3, 0, color));
-                squares.add(new Square(3, 1, color));
-                squares.add(new Square(4, 1, color));
-                squares.add(new Square(5, 1, color));
-
-                forceDown();
-                forceDown(); //TODO remove
                 break;
             case LIGHT_BLUE:
                 squares.add(new Square(3,1, color));
@@ -284,8 +289,52 @@ public class Tetromino {
             case GREEN:
                 break;
             case RED:
+                if(rotation == 1 || rotation == 3) {
+                    squares.clear();
+                    squares.add(new Square(rightEdge - 1, bottomEdge - 0, color));
+                    squares.add(new Square(rightEdge - 1, bottomEdge - 1, color));
+                    squares.add(new Square(rightEdge - 2, bottomEdge - 0, color));
+                    squares.add(new Square(rightEdge - 2, bottomEdge + 1, color));
+
+                } else {
+                    if(rightEdge < 9) {
+                        squares.clear();
+                        squares.add(new Square(rightEdge + 0, bottomEdge - 1, color));
+                        squares.add(new Square(rightEdge + 1, bottomEdge - 1, color));
+                        squares.add(new Square(rightEdge + 0, bottomEdge - 2, color));
+                        squares.add(new Square(rightEdge - 1, bottomEdge - 2, color));
+                    } else {
+                        isRotationPossible = false;
+                    }
+                }
                 break;
             case ORANGE:
+                if (rotation == 1) {
+                    squares.clear();
+                    squares.add(new Square(rightEdge - 1, bottomEdge - 0, color));
+                    squares.add(new Square(rightEdge - 1, bottomEdge + 1, color));
+                    squares.add(new Square(rightEdge - 1, bottomEdge - 1, color));
+                    squares.add(new Square(rightEdge - 2, bottomEdge - 1, color));
+                } else if (rotation == 2) {
+                    squares.clear();
+                    squares.add(new Square(rightEdge - 0, bottomEdge - 1, color));
+                    squares.add(new Square(rightEdge - 1, bottomEdge - 1, color));
+                    squares.add(new Square(rightEdge + 1, bottomEdge - 1, color));
+                    squares.add(new Square(rightEdge - 1, bottomEdge - 0, color));
+                } else if (rotation == 3) {
+                    squares.clear();
+                    squares.add(new Square(rightEdge - 1, bottomEdge - 1, color));
+                    squares.add(new Square(rightEdge - 1, bottomEdge - 2, color));
+                    squares.add(new Square(rightEdge - 1, bottomEdge - 0, color));
+                    squares.add(new Square(rightEdge - 0, bottomEdge - 0, color));
+                } else {
+                    squares.clear();
+                    squares.add(new Square(rightEdge - 1, bottomEdge - 1, color));
+                    squares.add(new Square(rightEdge + 0, bottomEdge - 1, color));
+                    squares.add(new Square(rightEdge - 2, bottomEdge - 1, color));
+                    squares.add(new Square(rightEdge - 0, bottomEdge - 2, color));
+
+                }
                 break;
             case PURPLE:
                 if(rotation == 1) {
@@ -296,7 +345,7 @@ public class Tetromino {
                     squares.add(new Square(rightEdge - 0, bottomEdge - 0, SquareColor.PURPLE));
                 }
                 else if(rotation == 2) {
-                    if(leftEdge > 1) {
+                    if(leftEdge > 0) {
                         squares.clear();
                         squares.add(new Square(rightEdge - 1, bottomEdge - 1, SquareColor.PURPLE));
                         squares.add(new Square(rightEdge - 0, bottomEdge - 1, SquareColor.PURPLE));
