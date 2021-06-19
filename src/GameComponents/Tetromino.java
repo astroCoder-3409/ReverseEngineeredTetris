@@ -213,6 +213,10 @@ public class Tetromino {
             case DEFAULT:
                 break;
             case GREEN:
+                squares.add(new Square(4, 1, color));
+                squares.add(new Square(5, 0, color));
+                squares.add(new Square(4, 0, color));
+                squares.add(new Square(3, 1, color));
                 break;
             case RED:
                 squares.add(new Square(4, 1, color));
@@ -266,7 +270,7 @@ public class Tetromino {
         rotation++;
         rotation = rotation % 4; //normalizes values to 0-3
 
-        boolean isRotationPossible = true;
+        boolean isRotationInBounds = true;
 
         int bottomEdge = 0;
         int rightEdge = 0;
@@ -287,6 +291,23 @@ public class Tetromino {
             case DEFAULT:
                 break;
             case GREEN:
+                if (rotation == 1 || rotation == 3) {
+                    squares.clear();
+                    squares.add(new Square(rightEdge - 1, bottomEdge - 0, color));
+                    squares.add(new Square(rightEdge - 1, bottomEdge - 1, color));
+                    squares.add(new Square(rightEdge - 0, bottomEdge - 0, color));
+                    squares.add(new Square(rightEdge - 0, bottomEdge + 1, color));
+                } else {
+                    if (leftEdge > 0) {
+                        squares.clear();
+                        squares.add(new Square(rightEdge - 1, bottomEdge - 1, color));
+                        squares.add(new Square(rightEdge - 2, bottomEdge - 1, color));
+                        squares.add(new Square(rightEdge - 1, bottomEdge - 2, color));
+                        squares.add(new Square(rightEdge - 0, bottomEdge - 2, color));
+                    } else {
+                        isRotationInBounds = false;
+                    }
+                }
                 break;
             case RED:
                 if(rotation == 1 || rotation == 3) {
@@ -304,7 +325,7 @@ public class Tetromino {
                         squares.add(new Square(rightEdge + 0, bottomEdge - 2, color));
                         squares.add(new Square(rightEdge - 1, bottomEdge - 2, color));
                     } else {
-                        isRotationPossible = false;
+                        isRotationInBounds = false;
                     }
                 }
                 break;
@@ -316,11 +337,16 @@ public class Tetromino {
                     squares.add(new Square(rightEdge - 1, bottomEdge - 1, color));
                     squares.add(new Square(rightEdge - 2, bottomEdge - 1, color));
                 } else if (rotation == 2) {
-                    squares.clear();
-                    squares.add(new Square(rightEdge - 0, bottomEdge - 1, color));
-                    squares.add(new Square(rightEdge - 1, bottomEdge - 1, color));
-                    squares.add(new Square(rightEdge + 1, bottomEdge - 1, color));
-                    squares.add(new Square(rightEdge - 1, bottomEdge - 0, color));
+                    if(rightEdge < 9) {
+                        squares.clear();
+                        squares.add(new Square(rightEdge - 0, bottomEdge - 1, color));
+                        squares.add(new Square(rightEdge - 1, bottomEdge - 1, color));
+                        squares.add(new Square(rightEdge + 1, bottomEdge - 1, color));
+                        squares.add(new Square(rightEdge - 1, bottomEdge - 0, color));
+                    } else {
+                        isRotationInBounds = false;
+                    }
+
                 } else if (rotation == 3) {
                     squares.clear();
                     squares.add(new Square(rightEdge - 1, bottomEdge - 1, color));
@@ -328,12 +354,15 @@ public class Tetromino {
                     squares.add(new Square(rightEdge - 1, bottomEdge - 0, color));
                     squares.add(new Square(rightEdge - 0, bottomEdge - 0, color));
                 } else {
-                    squares.clear();
-                    squares.add(new Square(rightEdge - 1, bottomEdge - 1, color));
-                    squares.add(new Square(rightEdge + 0, bottomEdge - 1, color));
-                    squares.add(new Square(rightEdge - 2, bottomEdge - 1, color));
-                    squares.add(new Square(rightEdge - 0, bottomEdge - 2, color));
-
+                    if (leftEdge > 0) {
+                        squares.clear();
+                        squares.add(new Square(rightEdge - 1, bottomEdge - 1, color));
+                        squares.add(new Square(rightEdge + 0, bottomEdge - 1, color));
+                        squares.add(new Square(rightEdge - 2, bottomEdge - 1, color));
+                        squares.add(new Square(rightEdge - 0, bottomEdge - 2, color));
+                    } else {
+                        isRotationInBounds = false;
+                    }
                 }
                 break;
             case PURPLE:
@@ -353,7 +382,7 @@ public class Tetromino {
                         squares.add(new Square(rightEdge - 1, bottomEdge - 0, SquareColor.PURPLE));
                     }
                     else {
-                        isRotationPossible = false;
+                        isRotationInBounds = false;
                     }
                 }
                 else if(rotation == 3) {
@@ -371,7 +400,7 @@ public class Tetromino {
                         squares.add(new Square(rightEdge - 1, bottomEdge - 1, SquareColor.PURPLE));
                         squares.add(new Square(rightEdge - 0, bottomEdge - 2, SquareColor.PURPLE));
                     } else {
-                        isRotationPossible = false;
+                        isRotationInBounds = false;
                     }
                 }
                 break;
@@ -392,7 +421,7 @@ public class Tetromino {
                        squares.add(new Square(rightEdge - 0, bottomEdge - 1, color));
                        squares.add(new Square(rightEdge - 0, bottomEdge - 0, color));
                    } else {
-                       isRotationPossible = false;
+                       isRotationInBounds = false;
                    }
                 } else if (rotation == 3) {
                     squares.clear();
@@ -408,7 +437,7 @@ public class Tetromino {
                         squares.add(new Square(rightEdge - 1, bottomEdge - 1, color));
                         squares.add(new Square(rightEdge - 1, bottomEdge - 2, color));
                     } else {
-                        isRotationPossible = false;
+                        isRotationInBounds = false;
                     }
 
                 }
@@ -430,15 +459,36 @@ public class Tetromino {
                         squares.add(new Square(rightEdge - 1, bottomEdge - 1, color));
                         squares.add(new Square(rightEdge - 2, bottomEdge - 1, color));
                     } else {
-                        isRotationPossible = false;
+                        isRotationInBounds = false;
                     }
                 }
                 break;
         }
-        if(!isRotationPossible) {
+        /*
+
+        SquareSpace[] testSquareSpaces = new SquareSpace[4];
+        Iterator<Square> iter = squares.iterator();
+        int cnt = 0;
+
+        while(iter.hasNext()) {
+            Square sq = iter.next();
+            testSquareSpaces[cnt] = World.getInstance().getSquareSpace(sq.getX(), sq.getX());
+            if(testSquareSpaces[cnt].getIsOccupied() && !isSquareSpaceOccupiedByTetronimo(testSquareSpaces[cnt])) {
+                isRotationConflicted = false;
+            }
+
+            cnt++;
+        }
+
+         */
+
+
+        if(!isRotationInBounds) {
             rotation--; //this resets rotations counter
             System.out.println("Attempted tetronimo rotation out of bounds  :/");
         }
+
+
     }
 
     public LinkedList<Square> getSquareList() {

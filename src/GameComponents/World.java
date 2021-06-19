@@ -5,11 +5,14 @@ import java.util.LinkedList;
 import java.util.Random;
 
 public class World {
-    private SquareSpace[][] worldMap;
 
+    private int fallTimeMs = 700;
+    private boolean isLockInReq = false;
+    private SquareSpace[][] worldMap;
     private LinkedList<Tetromino> tetrominoList;
     private LinkedList<Square> squareList;
     private static World mWorld = new World();
+
     public World() {
         worldMap = new SquareSpace[10][20];
         tetrominoList = new LinkedList<Tetromino>();
@@ -23,7 +26,7 @@ public class World {
                 worldMap[x][y] = new SquareSpace(x, y);
             }
         }
-        //generateTetronimo(SquareColor.ORANGE);
+        //generateTetronimo(SquareColor.GREEN);
         generateRandomTetronimo();
     }
 
@@ -35,15 +38,6 @@ public class World {
                 tetromino.moveLeft();
             }
         }
-
-
-        /*
-        for(Tetromino tetromino : tetrominoList) {
-            if(tetromino.isFalling()) {
-                tetromino.moveLeft();
-            }
-        }
-         */
     }
 
     public void moveTetronimoRight() {
@@ -54,15 +48,6 @@ public class World {
                 tetromino.moveRight();
             }
         }
-/*
-        for(Tetrominoz tetromino : tetrominoList) {
-            if(tetromino.isFalling()) {
-                tetromino.moveRight();
-            }
-        }
-
- */
-
     }
     public void moveTetronimoDown() {
         Iterator<Tetromino> iter = tetrominoList.iterator();
@@ -81,24 +66,6 @@ public class World {
         }
     }
 
-    public void moveAllTetronimosDown() {
-        Iterator<Tetromino> iter = tetrominoList.iterator();
-        while (iter.hasNext()) {
-            Tetromino tetromino = iter.next();
-            tetromino.forceDown();
-        }
-/*
-        for(Tetromino tetromino : tetrominoList) {
-            if(tetromino.isFalling()) {
-                tetromino.moveDown();
-            }
-        }
-
- */
-    }
-    public void moveTetronimoFloor() {
-
-    }
     public void rotateTetronimo() {
         Iterator<Tetromino> iter = tetrominoList.iterator();
         while (iter.hasNext()) {
@@ -107,20 +74,11 @@ public class World {
                 tetromino.rotate();
             }
         }
-
-        /*
-        for(Tetromino tetromino : tetrominoList) {
-            if(tetromino.isFalling()) {
-                tetromino.rotate();
-            }
-        }
-
-         */
     }
 
     private void generateRandomTetronimo() {
         Random rand = new Random();
-        int num = rand.nextInt(6);
+        int num = rand.nextInt(7);
         switch (num) {
             case 0:
                 generateTetronimo(SquareColor.LIGHT_BLUE);
@@ -140,10 +98,11 @@ public class World {
             case 5:
                 generateTetronimo(SquareColor.ORANGE);
                 break;
+            case 6:
+                generateTetronimo(SquareColor.GREEN);
+                break;
         }
     }
-
-    private boolean isLockInReq = false;
 
     public void requestLockIn() {
         isLockInReq = true;
@@ -171,7 +130,7 @@ public class World {
     }
 
     public long getFallTime() {
-        return 600;
+        return fallTimeMs;
     }
 
     public void update() {
