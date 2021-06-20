@@ -9,6 +9,13 @@ public class Tetromino {
     private SquareColor color;
     private long fallingTimer;
     private boolean isFalling;
+
+    private boolean isTransLeftReq = false;
+    private boolean isTransRightReq = false;
+    private boolean isTransDownReq = false;
+    private boolean isRotateReq = false;
+
+
     private LinkedList<Square> squares;
     private int rotation = 0;
     public Tetromino(int x, int y, SquareColor color) {
@@ -33,9 +40,12 @@ public class Tetromino {
                     isFalling = false;
                 }
             }
-
-
         }
+        if(isFalling) {
+            processMovements();
+        }
+
+
     }
 
     boolean isSquareOccupiedByTetronimo(Square testSquare) {
@@ -62,6 +72,41 @@ public class Tetromino {
     }
 
     public boolean getIsFalling() {return isFalling;}
+
+    public void requestRight() {
+        isTransRightReq = true;
+    }
+
+    public void requestLeft() {
+        isTransLeftReq = true;
+    }
+
+    public void requestDown() {
+        isTransDownReq = true;
+    }
+
+    public void requestRotate() {
+        isRotateReq = true;
+    }
+
+    private void processMovements() {
+        if (isTransRightReq) {
+            moveRight();
+            isTransRightReq = false;
+        }
+        if (isTransLeftReq) {
+            moveLeft();
+            isTransLeftReq = false;
+        }
+        if (isTransDownReq) {
+            moveDown();
+            isTransDownReq = false;
+        }
+        if(isRotateReq) {
+            rotate();
+            isRotateReq = false;
+        }
+    }
 
     public boolean moveLeft() {
         /*boolean isMovePossible = true;

@@ -18,23 +18,23 @@ public class KeyHandler extends KeyAdapter{
         if(dbg) System.out.println("DBG  key code pressed: " + key);
         if (key.equals(37)) {
             //left arrow
-            World.getInstance().reqMoveLeft();
-            //World.getInstance().moveTetronimoLeft();
+            //World.getInstance().reqMoveLeft();
+            World.getInstance().moveTetronimoLeft();
         }
         else if (key.equals(39)) {
             //right arrow
-            World.getInstance().reqMoveRight();
-            //World.getInstance().moveTetronimoRight();
+            //World.getInstance().reqMoveRight();
+            World.getInstance().moveTetronimoRight();
         }
         else if (key.equals(38)) {
             //up arrow
-            World.getInstance().reqRotate();
-            //World.getInstance().rotateTetronimo();
+            //World.getInstance().reqRotate();
+            World.getInstance().rotateTetronimo();
         }
         else if (key.equals(40)) {
             //down arrow
-            World.getInstance().reqMoveDown();
-            //World.getInstance().moveTetronimoDown();
+            //World.getInstance().reqMoveDown();
+            World.getInstance().moveTetronimoDown();
         } else if (key.equals(71)) {
             //g key
             World.getInstance().generateTetronimo(SquareColor.LIGHT_BLUE);

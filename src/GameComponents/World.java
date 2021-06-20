@@ -76,7 +76,7 @@ public class World {
         while (iter.hasNext()) {
             Tetromino tetromino = iter.next();
             if(tetromino.isFalling()) {
-                tetromino.moveLeft();
+                tetromino.requestLeft();
             }
         }
     }
@@ -86,7 +86,7 @@ public class World {
         while (iter.hasNext()) {
             Tetromino tetromino = iter.next();
             if(tetromino.isFalling()) {
-                tetromino.moveRight();
+                tetromino.requestRight();
             }
         }
     }
@@ -95,7 +95,7 @@ public class World {
         while (iter.hasNext()) {
             Tetromino tetromino = iter.next();
             if(tetromino.isFalling()) {
-                tetromino.moveDown();
+                tetromino.requestDown();
             }
         }
     }
@@ -112,7 +112,7 @@ public class World {
         while (iter.hasNext()) {
             Tetromino tetromino = iter.next();
             if(tetromino.isFalling()) {
-                tetromino.rotate();
+                tetromino.requestRotate();
             }
         }
     }
@@ -179,7 +179,7 @@ public class World {
             lockIn();
             isLockInReq = false;
         }
-        processMovementRequests();
+        //processMovementRequests();
         //iterates through each column on x axis
         for(int x = 0; x < 10; x++) {
             //iterates through each square space
