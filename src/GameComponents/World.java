@@ -6,8 +6,14 @@ import java.util.Random;
 
 public class World {
 
-    private int fallTimeMs = 700;
+    private int fallTimeMs = 150;
+
     private boolean isLockInReq = false;
+    private boolean isMoveDownReq = false;
+    private boolean isMoveRightReq = false;
+    private boolean isMoveLeftReq = false;
+    private boolean isRotateReq = false;
+
     private SquareSpace[][] worldMap;
     private LinkedList<Tetromino> tetrominoList;
     private LinkedList<Square> squareList;
@@ -28,6 +34,41 @@ public class World {
         }
         //generateTetronimo(SquareColor.GREEN);
         generateRandomTetronimo();
+    }
+
+    public void reqMoveRight() {
+        isMoveRightReq = true;
+    }
+
+    public void reqMoveLeft() {
+        isMoveLeftReq = true;
+    }
+
+    public void reqMoveDown() {
+        isMoveDownReq = true;
+    }
+
+    public void reqRotate() {
+        isRotateReq = true;
+    }
+
+    private void processMovementRequests() {
+        if (isMoveRightReq) {
+            moveTetronimoRight();
+            isMoveRightReq = false;
+        }
+        if (isMoveLeftReq) {
+            moveTetronimoLeft();
+            isMoveLeftReq = false;
+        }
+        if (isMoveDownReq) {
+            moveTetronimoDown();
+            isMoveDownReq = false;
+        }
+        if(isRotateReq) {
+            rotateTetronimo();
+            isRotateReq = false;
+        }
     }
 
     public void moveTetronimoLeft() {
@@ -138,6 +179,7 @@ public class World {
             lockIn();
             isLockInReq = false;
         }
+        processMovementRequests();
         //iterates through each column on x axis
         for(int x = 0; x < 10; x++) {
             //iterates through each square space

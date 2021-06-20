@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 
 
 public class KeyHandler extends KeyAdapter{
-
+    private boolean dbg = false;
     public KeyHandler(){
 
     }
@@ -15,22 +15,26 @@ public class KeyHandler extends KeyAdapter{
 
 
         Integer key = e.getKeyCode();
-        System.out.println("DBG  key code pressed: " + key);
+        if(dbg) System.out.println("DBG  key code pressed: " + key);
         if (key.equals(37)) {
             //left arrow
-            World.getInstance().moveTetronimoLeft();
+            World.getInstance().reqMoveLeft();
+            //World.getInstance().moveTetronimoLeft();
         }
         else if (key.equals(39)) {
             //right arrow
-            World.getInstance().moveTetronimoRight();
+            World.getInstance().reqMoveRight();
+            //World.getInstance().moveTetronimoRight();
         }
         else if (key.equals(38)) {
             //up arrow
-            World.getInstance().rotateTetronimo();
+            World.getInstance().reqRotate();
+            //World.getInstance().rotateTetronimo();
         }
         else if (key.equals(40)) {
             //down arrow
-            World.getInstance().moveTetronimoDown();
+            World.getInstance().reqMoveDown();
+            //World.getInstance().moveTetronimoDown();
         } else if (key.equals(71)) {
             //g key
             World.getInstance().generateTetronimo(SquareColor.LIGHT_BLUE);
@@ -39,22 +43,22 @@ public class KeyHandler extends KeyAdapter{
 
     public void keyReleased(KeyEvent e){
         Integer key = e.getKeyCode();
-        System.out.println("DBG  key code releasedssdfdsd: " + key);
+        if(dbg) System.out.println("DBG  key code releasedssdfdsd: " + key);
         if (key.equals(37)) {
             //left arrow?
 
-            System.out.println("DBG  left released");
+            if(dbg) System.out.println("DBG  left released");
         }
         else if (key.equals(38)) {
-            System.out.println("DBG  down released");
+            if(dbg) System.out.println("DBG  down released");
             //up arrow?
         }
         else if (key.equals(39)) {
-            System.out.println("DBG  right released");
+            if(dbg) System.out.println("DBG  right released");
             //right arrow?
         }
         else if (key.equals(40)) {
-            System.out.println("DBG up released");
+            if(dbg) System.out.println("DBG up released");
             //down arrow?
         }
     }
