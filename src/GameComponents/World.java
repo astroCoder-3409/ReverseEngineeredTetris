@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class World {
 
-    private int fallTimeMs = 150;
+    private int fallTimeMs = 500;
 
     private boolean isLockInReq = false;
     private boolean isMoveDownReq = false;
