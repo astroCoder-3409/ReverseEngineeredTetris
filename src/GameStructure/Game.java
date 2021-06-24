@@ -1,13 +1,8 @@
 package GameStructure;
 
 import GameComponents.*;
-
 import java.awt.*;
-import java.awt.image.BufferStrategy;
-import java.util.LinkedList;
 import javax.swing.JFrame;
-import java.util.Scanner;
-import java.util.regex.Pattern;
 
 public class Game extends Canvas implements Runnable {
 
@@ -24,14 +19,13 @@ public class Game extends Canvas implements Runnable {
     public int tickCount = 0;
 
     Graphics g;
-    BufferStrategy bs;
 
-    Scanner keyboard;
     public Game() {
         World.getInstance().initializeWorldMap();
         setBackground(Color.BLACK);
 
         this.addKeyListener(new KeyHandler());
+        this.setFocusable(true);
 
         setMinimumSize(new Dimension((int) (WIDTH*SCALE + 1), (int) (HEIGHT*SCALE + 1)));
         setMaximumSize(new Dimension((int) (WIDTH*SCALE + 1), (int) (HEIGHT*SCALE + 1)));
@@ -110,19 +104,6 @@ public class Game extends Canvas implements Runnable {
     public void tick() {
         tickCount++;
         World.getInstance().update();
-
-
-        /*
-        if(tickCount % 64 == 0) {
-            World.getInstance().getWorldMap()[0][1].setColor(SquareColor.LIGHT_BLUE);
-            World.getInstance().getWorldMap()[1][1].setColor(SquareColor.LIGHT_BLUE);
-            World.getInstance().getWorldMap()[2][1].setColor(SquareColor.LIGHT_BLUE);
-            World.getInstance().getWorldMap()[3][1].setColor(SquareColor.LIGHT_BLUE);
-        }
-        if(tickCount % (64 * 2) == 0) {
-            World.getInstance().getWorldMap()[5][5].setColor(SquareColor.DARK_BLUE);
-        }
-         */
     }
 
     SquareSpace[][] squareSpaces;

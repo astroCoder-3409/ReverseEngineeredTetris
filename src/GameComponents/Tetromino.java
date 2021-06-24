@@ -1,7 +1,5 @@
 package GameComponents;
 
-import java.awt.*;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Tetromino {
@@ -221,7 +219,7 @@ public class Tetromino {
             }
             if(xInc < 0) {
                 for(Square square : squares) {
-                    SquareSpace testSquareSpace = World.getInstance().getWorldMap()[square.getX() - 1][square.getY() - 1];
+                    SquareSpace testSquareSpace = World.getInstance().getWorldMap()[square.getX() - 1][square.getY()];
                     if(testSquareSpace.getIsOccupied() && !isSquareSpaceOccupiedByTetronimo(testSquareSpace)) {
                         isMovePossible = false;
                     }
@@ -245,13 +243,6 @@ public class Tetromino {
         return isMovePossible;
     }
 
-
-
-    public void removeSquare(Square square) {
-        squares.remove(square);
-    }
-
-    //TODO finish Tetromino build()
     public void build(SquareColor color) {
         rotation = 0; // Do not remove, this resets the rotation
         switch (this.color) {
@@ -310,7 +301,6 @@ public class Tetromino {
         }
     }
 
-    //TODO finish Tetromino rotate()
     public void rotate() {
         rotation++;
         rotation = rotation % 4; //normalizes values to 0-3

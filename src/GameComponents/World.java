@@ -9,10 +9,6 @@ public class World {
     private int fallTimeMs = 500;
 
     private boolean isLockInReq = false;
-    private boolean isMoveDownReq = false;
-    private boolean isMoveRightReq = false;
-    private boolean isMoveLeftReq = false;
-    private boolean isRotateReq = false;
 
     private SquareSpace[][] worldMap;
     private LinkedList<Tetromino> tetrominoList;
@@ -32,43 +28,7 @@ public class World {
                 worldMap[x][y] = new SquareSpace(x, y);
             }
         }
-        //generateTetronimo(SquareColor.GREEN);
         generateRandomTetronimo();
-    }
-
-    public void reqMoveRight() {
-        isMoveRightReq = true;
-    }
-
-    public void reqMoveLeft() {
-        isMoveLeftReq = true;
-    }
-
-    public void reqMoveDown() {
-        isMoveDownReq = true;
-    }
-
-    public void reqRotate() {
-        isRotateReq = true;
-    }
-
-    private void processMovementRequests() {
-        if (isMoveRightReq) {
-            moveTetronimoRight();
-            isMoveRightReq = false;
-        }
-        if (isMoveLeftReq) {
-            moveTetronimoLeft();
-            isMoveLeftReq = false;
-        }
-        if (isMoveDownReq) {
-            moveTetronimoDown();
-            isMoveDownReq = false;
-        }
-        if(isRotateReq) {
-            rotateTetronimo();
-            isRotateReq = false;
-        }
     }
 
     public void moveTetronimoLeft() {
@@ -90,6 +50,7 @@ public class World {
             }
         }
     }
+
     public void moveTetronimoDown() {
         Iterator<Tetromino> iter = tetrominoList.iterator();
         while (iter.hasNext()) {
@@ -99,6 +60,7 @@ public class World {
             }
         }
     }
+
     public void moveSquaresAbove(int level) {
         Iterator<Tetromino> iter = tetrominoList.iterator();
         while (iter.hasNext()) {
@@ -157,19 +119,6 @@ public class World {
         return worldMap;
     }
 
-
-    public LinkedList<Tetromino> getTetrominoList() {
-        return tetrominoList;
-    }
-
-    public LinkedList<Square> getSquareList() {
-        return squareList;
-    }
-
-    public SquareSpace getSquareSpace(int x, int y) {
-        return worldMap[x][y];
-    }
-
     public long getFallTime() {
         return fallTimeMs;
     }
@@ -184,7 +133,6 @@ public class World {
         for(int x = 0; x < 10; x++) {
             //iterates through each square space
             for(int y = 0; y < 20; y++) {
-                //for(Tetromino tetromino : tetrominoList) {
                 Iterator<Tetromino> iter = tetrominoList.iterator();
                 while (iter.hasNext()) {
                     Tetromino tetromino = iter.next();
@@ -211,9 +159,9 @@ public class World {
     }
 
     private void lockIn() {
-        //generateTetronimo(SquareColor.LIGHT_BLUE);
-        //generateTetronimo(SquareColor.PURPLE);
+
         generateRandomTetronimo();
+
         for (int y = 0; y < 20; y++) {
             boolean isLineClearable = true;
             for(int x = 0; x < 10; x++) {
