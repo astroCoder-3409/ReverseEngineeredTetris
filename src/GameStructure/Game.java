@@ -10,7 +10,7 @@ public class Game extends Canvas implements Runnable {
     public static final int HEIGHT = WIDTH * 2;
     public static final float SCALE = 3.0f;
     public static final int SQUARE_WIDTH = (int) (12 * SCALE);
-    public static final String NAME = "Tetris shit";
+    public static final String NAME = "Tetris Recreation With Java & Swing";
     private static final long serialVersionUID = 1L;
     private static final boolean gameDBG = false;
 
@@ -115,13 +115,15 @@ public class Game extends Canvas implements Runnable {
         g.setColor(Color.darkGray);
         for(int x = 0; x < 10; x++) {
             for(int y = 0; y < 20; y++) {
-                g.drawRect(x * SQUARE_WIDTH, y * SQUARE_WIDTH, SQUARE_WIDTH, SQUARE_WIDTH);
+                //g.drawRect(x * SQUARE_WIDTH, y * SQUARE_WIDTH, SQUARE_WIDTH, SQUARE_WIDTH);
+                g.drawRoundRect(x * SQUARE_WIDTH, y * SQUARE_WIDTH, SQUARE_WIDTH, SQUARE_WIDTH, 6, 6);
             }
         }
         for(int x = 0; x < 10; x++) {
             for(int y = 0; y < 20; y++) {
                 setGraphicsColor(World.getInstance().getWorldMap()[x][y].getColor());
-                g.fillRect(x * SQUARE_WIDTH+2, y * SQUARE_WIDTH+2, SQUARE_WIDTH-3 , SQUARE_WIDTH - 3);
+                //g.fillRect(x * SQUARE_WIDTH+2, y * SQUARE_WIDTH+2, SQUARE_WIDTH-3 , SQUARE_WIDTH - 3);
+                g.fillRoundRect(x * SQUARE_WIDTH+2, y * SQUARE_WIDTH+2, SQUARE_WIDTH-3 , SQUARE_WIDTH - 3, 6, 6);
             }
         }
         g.dispose();
